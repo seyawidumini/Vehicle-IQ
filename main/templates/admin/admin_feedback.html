@@ -1,0 +1,44 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Admin • Feedback{% endblock %}
+
+{% block main_content %}
+
+<header class="dashboard-header">
+    <h1 class="dashboard-title">User Feedback</h1>
+</header>
+
+<section class="table-section">
+    <div class="section-card">
+        <h2 class="section-title">Feedback List</h2>
+
+        {% if feedbacks %}
+            <table class="feedback-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Message</th>
+                        <th>Rating</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in feedbacks| reverse  %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ f.user.username if f.user else 'Anonymous' }}</td>
+                        <td>{{ f.message[:100] }}{% if f.message|length > 100 %}...{% endif %}</td>
+                        <td>{{ f.rating }}/5</td>
+                        <td>{{ f.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-data">No feedback entries found.</div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

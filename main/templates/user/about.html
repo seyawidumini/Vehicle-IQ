@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle IQ - About Vehicles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/logo.png') }}">
+    <script src="https://kit.fontawesome.com/36dd93e96b.js" crossorigin="anonymous"></script>
+</head>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="logo">Vehicle<span class="logo-highlight">IQ</span></a>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}" class="nav-link "><i class="fa-solid fa-house"></i>  Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-label">YOUR FLEET</div>
+            <h1 class="hero-title">Vehicle<span class="hero-highlight"> Information</span></h1><hr>
+            <p class="hero-subtitle">
+                Explore your complete vehicle collection with real-time details and specifications.
+            </p>
+        </div>
+    </section>
+
+    <!-- Vehicles Grid -->
+    <section class="features-section">
+        <div class="features">
+            {% for vehicle in vehicles %}
+            <div class="feature-card vehicle-card">
+                <div class="image-wrapper">
+                   <img src="{{ url_for('static', filename=vehicle.photo) }}" alt="{{ vehicle.brand }} {{ vehicle.model }}">
+                </div>
+                <h3>{{ vehicle.brand }} {{ vehicle.model }}</h3>
+                <div class="vehicle-specs">
+                    <p><span class="spec-label">Category:</span> {{ vehicle.vehicle_category }}</p>
+                    <p><span class="spec-label">Fuel:</span> {{ vehicle.fuel_type }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Vehicle IQ. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

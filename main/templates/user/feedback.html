@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle IQ - Feedback</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/logo.png') }}">
+    <script src="https://kit.fontawesome.com/36dd93e96b.js" crossorigin="anonymous"></script>
+</head>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="logo">Vehicle<span class="logo-highlight">IQ</span></a>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}" class="nav-link"><i class="fa-solid fa-house"></i> Home</a>
+            </div>
+        </nav>
+    </nav>
+<div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-label">YOUR VOICE MATTERS</div>
+            <h1 class="hero-title">Share Your<span class="hero-highlight"> Feedback</span></h1><hr><br>
+            <p class="hero-subtitle">
+                Help us improve Vehicle IQ with your valuable insights and suggestions.
+            </p>
+        </div>
+    </section>
+
+   <!-- Feedback Form Section -->
+    <section class="feedback-section">
+    <div class="feedback-container">
+        <div class="feedback-card">
+
+            <form method="POST">
+                
+                {{ form.hidden_tag() }}
+
+                <!-- Rating -->
+                <div class="form-group">
+                    <label class="form-label">{{ form.rating.label }}</label>
+
+                    <div class="rating-group">
+                        {% for subfield in form.rating %}
+                            {{ subfield(class="rating-input") }}
+                            <label class="rating-star" for="{{ subfield.id }}">
+                                ★
+                            </label>
+                        {% endfor %}
+                    </div>
+
+                    {% if form.rating.errors %}
+                        <span class="error">
+                            {{ form.rating.errors[0] }}
+                        </span>
+                    {% endif %}
+                </div>
+
+
+                <!-- Message -->
+                <div class="form-group">
+                    <label class="form-label">{{ form.message.label }}</label>
+
+                    {{ form.message(
+                        class="form-textarea",
+                        placeholder="Tell us about your experience...",
+                        rows="6"
+                    ) }}
+
+                    {% if form.message.errors %}
+                        <span class="error">
+                            {{ form.message.errors[0] }}
+                        </span>
+                    {% endif %}
+                </div>
+
+
+                <!-- Submit -->
+                <button type="submit" class="submit-btn">
+                    Submit Feedback
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Vehicle IQ. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for( 'static',filename='admin-dashboard.css') }}">
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+    <a href="{{ url_for('logout') }}" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+    </a>
+</div>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="nav-group">
+            <div class="nav-title">MAIN</div>
+            <a href="#dashboard" class="nav-item active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#search" class="nav-item">
+                <i class="fas fa-search"></i>
+                <span>Search</span>
+            </a>
+            <a href="#add-vehicle" class="nav-item">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add Vehicle</span>
+            </a>
+        </div>
+        <div class="nav-group">
+            <a href="#history" class="nav-item">
+                <i class="fas fa-history"></i>
+                <span>History</span>
+            </a>
+            <a href="{{ url_for('admin_feedback') }}" class="nav-item">
+                <i class="fas fa-comment-dots"></i>
+                <span>Feedback</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">Admin Dashboard</h1>
+            <div class="welcome-text">Welcome back, {{ current_user.username }}!</div>
+        </header>
+
+        <!-- Stats Grid -->
+        <section class="stats-grid">
+            <article class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="stat-value">1,247</div>
+                <div class="stat-label">Total Vehicles</div>
+            </article>
+            <article class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="stat-value">324</div>
+                <div class="stat-label">Searches Today</div>
+            </article>
+            <article class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-value">892</div>
+                <div class="stat-label">Active Users</div>
+            </article>
+            <article class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-comment"></i>
+                </div>
+                <div class="stat-value">47</div>
+                <div class="stat-label">New Feedback</div>
+            </article>
+        </section>
+
+        <!-- Activity Section -->
+        <section class="activity-section">
+            <article class="section-card">
+                <h2 class="section-title">Recent Activity</h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Vehicle Added</h4>
+                            <p>Toyota Camry 2024 added to database</p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Search Performed</h4>
+                            <p>User searched for "electric SUV" - 12:15 PM</p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>New Feedback</h4>
+                            <p>Great search results! - John D.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <aside class="section-card quick-actions">
+                <h2 class="section-title">Quick Actions</h2>
+                <div class="action-buttons">
+                    <button class="action-btn primary">
+                        <i class="fas fa-sync-alt"></i>
+                        Sync Data
+                    </button>
+                    <button class="action-btn secondary">
+                        <i class="fas fa-download"></i>
+                        Export Report
+                    </button>
+                </div>
+            </aside>
+        </section>
+    </main>
+</body>
+</html>

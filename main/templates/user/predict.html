@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Price Predictor</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='form.css')}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/logo.png') }}">
+</head>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Vehicle<span class="logo-highlight">IQ</span></div>
+            <div class="nav-links">
+                <a href="{{url_for('home')}}" class="nav-link"><i class="fa-solid fa-house"></i>  Home</a>
+                <a href="{{url_for('about')}}" class="nav-link"><i class="fa-solid fa-circle-info"></i> Info</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Form Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <br><br><br>
+            <h1 class="hero-title">Predict Your <span class="hero-highlight">Car Value</span></h1><hr><br>
+            
+            <!-- WTForms Compatible Form -->
+            <form method="POST" action="/predict" class="prediction-form">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-grid">
+                    <!-- Numeric Fields -->
+                    <div class="form-group">
+                        {{ form.model_year.label(class="form-label") }}
+                        {{ form.model_year(class="form-input", placeholder="e.g. 2020") }}
+                        {% if form.model_year.errors %}
+                            <div class="error">{{ form.model_year.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                     <!-- Select Fields -->
+                    <div class="form-group">
+                        {{ form.car_model.label(class="form-label") }}
+                        {{ form.car_model(class="form-input") }}
+                        {% if form.car_model.errors %}
+                            <div class="error">{{ form.car_model.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="form-group">
+                        {{ form.milage.label(class="form-label") }}
+                        {{ form.milage(class="form-input", placeholder="e.g. 50000") }}
+                        {% if form.milage.errors %}
+                            <div class="error">{{ form.milage.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.age.label(class="form-label") }}
+                        {{ form.age(class="form-input", placeholder="e.g. 3") }}
+                        {% if form.age.errors %}
+                            <div class="error">{{ form.age.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.cc.label(class="form-label") }}
+                        {{ form.cc(class="form-input", placeholder="e.g. 1500") }}
+                        {% if form.cc.errors %}
+                            <div class="error">{{ form.cc.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                   
+                    <div class="form-group">
+                        {{ form.fuel_type.label(class="form-label") }}
+                        {{ form.fuel_type(class="form-input") }}
+                        {% if form.fuel_type.errors %}
+                            <div class="error">{{ form.fuel_type.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.location.label(class="form-label") }}
+                        {{ form.location(class="form-input") }}
+                        {% if form.location.errors %}
+                            <div class="error">{{ form.location.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.color.label(class="form-label") }}
+                        {{ form.color(class="form-input") }}
+                        {% if form.color.errors %}
+                            <div class="error">{{ form.color.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Other Fields -->
+                    <div class="form-group">
+                        {{ form.transmission.label(class="form-label") }}
+                        {{ form.transmission(class="form-input") }}
+                        {% if form.transmission.errors %}
+                            <div class="error">{{ form.transmission.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.condition.label(class="form-label") }}
+                        {{ form.condition(class="form-input") }}
+                        {% if form.condition.errors %}
+                            <div class="error">{{ form.condition.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.vehicle_type.label(class="form-label") }}
+                        {{ form.vehicle_type(class="form-input") }}
+                        {% if form.vehicle_type.errors %}
+                            <div class="error">{{ form.vehicle_type.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Boolean Checkboxes -->
+                <div class="features-row">
+    <div class="checkbox-wrapper">
+        {{ form.power_steering(class_="custom-checkbox") }}
+        <label for="{{ form.power_steering.id }}" class="checkbox-label">
+            <span class="checkmark"></span>
+            Power Steering
+        </label>
+    </div>
+    
+    <div class="checkbox-wrapper">
+        {{ form.push_start(class_="custom-checkbox") }}
+        <label for="{{ form.push_start.id }}" class="checkbox-label">
+            <span class="checkmark"></span>
+            Push Start
+        </label>
+    </div>
+
+    </div>
+                <!-- Submit Button -->
+                <div class="submit-wrapper">
+                    {{ form.submit(class="hero-cta form-submit-small") }}
+            </div>
+            </form>
+        </div>
+
+      
+        
+    </section>
+    {% if prediction is defined %}
+<div class="prediction-result">
+    <div class="result-header">
+        <i class="fas fa-check-circle"></i>
+    </div>
+    <div class="result-price">
+        <span class="price-label">Estimated Value:</span>
+       <span class="price-value">
+    {% if prediction %}LKR {{ "{:,.2f}".format(prediction) }}{% endif %}
+</span>
+    </div>
+    <div class="result-confidence">99.8% Confidence • Market Ready</div>
+</div>
+{% endif %}
+
+    <!-- Features & Footer remain same -->
+    <!-- ... your existing features and footer ... -->
+</body>
+</html>

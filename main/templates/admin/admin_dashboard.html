@@ -1,0 +1,90 @@
+<!-- templates/admin_dashboard.html -->
+{% extends "admin/base_admin.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block main_content %}
+
+<header class="dashboard-header">
+    <h1 class="dashboard-title">Admin Dashboard</h1>
+    <div class="welcome-text">Welcome back, Admin</div>
+</header>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-car"></i>
+        </div>
+        <div class="stat-value">1,247</div>
+        <div class="stat-label">Total Vehicles</div>
+    </article>
+    <article class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="stat-value">324</div>
+        <div class="stat-label">Searches Today</div>
+    </article>
+    <article class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-value">892</div>
+        <div class="stat-label">Active Users</div>
+    </article>
+    <article class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-comment"></i>
+        </div>
+        <div class="stat-value">47</div>
+        <div class="stat-label">New Feedback</div>
+    </article>
+</section>
+
+<section class="activity-section">
+    <article class="section-card">
+        <h2 class="section-title">Recent Activity</h2>
+        <div class="activity-list">
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Vehicle Added</h4>
+                    <p>Toyota Camry 2024 added to database</p>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Search Performed</h4>
+                    <p>User searched for "electric SUV" - 12:15 PM</p>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>New Feedback</h4>
+                    <p>Great search results! - John D.</p>
+                </div>
+            </div>
+        </div>
+    </article>
+    <aside class="section-card quick-actions">
+        <h2 class="section-title">Quick Actions</h2>
+        <div class="action-buttons">
+            <button class="action-btn primary">
+                <i class="fas fa-sync-alt"></i>
+                Sync Data
+            </button>
+            <button class="action-btn secondary">
+                <i class="fas fa-download"></i>
+                Export Report
+            </button>
+        </div>
+    </aside>
+</section>
+
+{% endblock %}

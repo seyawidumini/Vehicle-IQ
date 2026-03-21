@@ -1,0 +1,62 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Admin • Prediction History{% endblock %}
+
+{% block main_content %}
+<header class="dashboard-header">
+    <h1 class="dashboard-title">Prediction History</h1>
+</header>
+
+<section class="table-section">
+    <div class="section-card">
+        <h2 class="section-title">All Predictions</h2>
+
+        {% if predictions %}
+            <div style="overflow-x:auto;">
+                <table class="feedback-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>User</th>
+                            <th>Model</th>
+                            <th>Year</th>
+                            <th>Mileage</th>
+                            <th>Transmission</th>
+                            <th>Condition</th>
+                            <th>Location</th>
+                            <th>CC</th>
+                            <th>Power Steering</th>
+                            <th>Push Start</th>
+                            <th>Predicted Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in predictions | reverse %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ p.user.username if p.user else 'Anonymous' }}</td>
+                            <td title="{{ p.model }}">{{ p.model }}</td>
+                            <td>{{ p.model_year }}</td>
+                            <td>{{ p.milage }}</td>
+                            <td>{{ 'Manual' if p.transmission == '0' else 'Automatic' }}</td>
+                            <td>{{ 'Medium' if p.condition == '1' else 'Mint' }}</td>
+                            <td>{{ p.location.replace('_',' ').title() }}</td>
+                            <td>{{ p.cc }}</td>
+                            <td>{{ 'Yes' if p.power_steering else 'No' }}</td>
+                            <td>{{ 'Yes' if p.push_start else 'No' }}</td>
+                            <td>{{ "{:,}".format(p.price) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="no-data">No predictions found.</div>
+        {% endif %}
+
+    </div>
+</section>
+
+
+</style>
+
+{% endblock %}

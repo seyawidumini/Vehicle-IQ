@@ -1,0 +1,58 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Add Vehicle{% endblock %}
+
+{% block main_content %}
+
+<div class="admin-vehicle-form">
+    <div class="vehicle-card">
+        <h2 class="vehicle-title">Add New Vehicle</h2>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-group">
+                {{ form.photo.label(class="form-label") }}
+                {{ form.photo(class="form-control") }}
+                {% for error in form.photo.errors %}
+                    <div class="error-message">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.brand.label(class="form-label") }}
+                {{ form.brand(class="form-control") }}
+                {% for error in form.brand.errors %}
+                    <div class="error-message">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.model.label(class="form-label") }}
+                {{ form.model(class="form-control") }}
+                {% for error in form.model.errors %}
+                    <div class="error-message">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.vehicle_category.label(class="form-label") }}
+                {{ form.vehicle_category(class="form-control") }}
+                {% for error in form.vehicle_category.errors %}
+                    <div class="error-message">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.fuel_type.label(class="form-label") }}
+                {{ form.fuel_type(class="form-control") }}
+                {% for error in form.fuel_type.errors %}
+                    <div class="error-message">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            {{ form.submit(class="submit-btn") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

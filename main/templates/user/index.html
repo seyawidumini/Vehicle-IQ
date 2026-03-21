@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle IQ - AI Prediction System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='index.css') }}">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/logo.png') }}">
+    <script src="https://kit.fontawesome.com/36dd93e96b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                Vehicle<span class="logo-highlight">IQ</span>
+            </div>
+            <div class="nav-links">
+                {% if current_user.is_authenticated %}
+                <a href="{{url_for('about')}}" class="nav-link"><i class="fa-solid fa-circle-info"></i> Info</a>
+                <a href="{{url_for('feedback')}}" class="nav-link"><i class="fa-solid fa-comment"></i> Feedback</a>
+                <a href="{{url_for('account')}}" class="nav-link"><i class="fa-regular fa-circle-user"></i> Account</a>
+                {% else %}
+                <a href="{{url_for('about')}}" class="nav-link"><i class="fa-solid fa-circle-info"></i> Info</a>
+                <a href="{{url_for('login')}}" class="nav-link"><i class="fa-solid fa-user"></i> Sign In</a>
+                <a href="{{url_for('register')}}" class="nav-link"><i class="fa-solid fa-plus"></i> Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content"><br><br><br><br>
+            {% if current_user.is_authenticated %}
+            <p>
+                <div class="hero-label">
+                <span>Hello {{ current_user.username }}!</span>
+            </div>
+            </p>
+            {% else %}
+            <div class="hero-label">
+                <span>AI Prediction Engine</span>
+            </div>
+            {% endif %}
+            
+            <h1 class="hero-title">
+                Vehicle<span class="hero-highlight">IQ</span>
+            </h1><hr>
+            
+            <p class="hero-subtitle">
+                Discover the true value of any vehicle with our AI-driven price prediction tool. Get fast, reliable estimates and make smarter decisions when buying or selling cars.
+            </p>
+            <a href="{{ url_for('predict') }}" class="hero-cta">
+                <span>Predict Now</span>
+                <i class="fas fa-arrow-right"></i>
+             </a><br><br><br>
+             <p class="hero-subtitle" style="font-size: large;">
+               Accurate Prices. Confident Decisions.
+            </p>
+            <p>
+                <a href="{{ url_for('search') }}" class="hero-highlight button round-button">
+                    <span>Search With Budget</span>
+                </a>
+            </p>
+        </div>
+    </section>
+
+    <!-- YOUR EXACT FEATURES SECTION -->
+    <main class="features-section">
+        <!-- Features Section -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>Pred Maintenance</h3>
+                <p>Prevent breakdowns before they happen</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Analyze Performance</h3>
+                <p>Real-time insights into fleet efficiency</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3>Optimize Fleet</h3>
+                <p>Maximize uptime and reduce costs</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- YOUR EXACT FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Vehicle IQ. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+
+  
+</body>
+</html>

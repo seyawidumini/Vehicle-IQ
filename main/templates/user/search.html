@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Search - AutoHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/logo.png') }}">
+</head>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="{{ url_for('home') }}" class="logo">Vehicle<span class="logo-highlight">IQ</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link"><i class="fa-solid fa-house"></i>  Home</a>
+            </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-label">Budget Search</div>
+            <h1 class="hero-title">
+                Find Your <span class="hero-highlight">Dream Car</span><br>
+                Within Budget
+            </h1>
+            <p class="hero-subtitle">
+                Enter your budget and discover available vehicles instantly. 
+                No compromises, just perfect matches.
+            </p>
+
+            <!-- Search Form -->
+            <section class="search-section">
+                <form method="POST" class="search-form">
+                    {{ form.hidden_tag() }}
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            {{ form.budget(class="budget-input", placeholder="Enter budget (e.g., 50000)") }}
+                            {% if form.budget.errors %}
+                                <div class="error-message">
+                                    {% for error in form.budget.errors %}
+                                        <i class="fas fa-exclamation-circle"></i> {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="hero-cta search-btn">
+                            <span>Search Vehicles</span>
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    {% if vehicles %}
+    <section class="features-section results-section">
+        <div class="features">
+            {% for vehicle in vehicles %}
+            <div class="feature-card vehicle-card">
+                
+                <div class="vehicle-meta">
+                    <h3>{{ vehicle.model }}</h3>
+                    <span class="vehicle-year">{{ vehicle.year }}</span>
+                    <span class="vehicle-price">LKR {{ "{:,}".format(vehicle.price) }}</span>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- No Results -->
+    {% if vehicles and vehicles|length == 0 %}
+    <section class="features-section no-results-section">
+        <div class="feature-card no-results-card">
+            <div class="feature-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h3>No Vehicles Found</h3>
+            <p>Try increasing your budget or check back later for new listings.</p>
+            <div class="cta-group">
+                <a href="/search" class="nav-cta secondary">Try New Search</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 AutoHub. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Support</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
