@@ -1,62 +1,65 @@
 {% extends "admin/base_admin.html" %}
-{% block title %}Admin • Prediction History{% endblock %}
+{% block title %}Prediction History | Vehicle-IQ</Vehicle-IQ>{% endblock %}
 
 {% block main_content %}
-<header class="dashboard-header">
-    <h1 class="dashboard-title">Prediction History</h1>
+<header class="flex justify-between items-end mb-12">
+    <div class="max-w-2xl">
+        <h2 class="text-4xl font-extrabold text-primary tracking-tight mb-2 font-headline">Prediction Log</h2>
+        <p class="text-on-surface-variant font-body">Historical registry of all AI model valuations executed across the platform.</p>
+    </div>
 </header>
 
-<section class="table-section">
-    <div class="section-card">
-        <h2 class="section-title">All Predictions</h2>
-
-        {% if predictions %}
-            <div style="overflow-x:auto;">
-                <table class="feedback-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>User</th>
-                            <th>Model</th>
-                            <th>Year</th>
-                            <th>Mileage</th>
-                            <th>Transmission</th>
-                            <th>Condition</th>
-                            <th>Location</th>
-                            <th>CC</th>
-                            <th>Power Steering</th>
-                            <th>Push Start</th>
-                            <th>Predicted Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for p in predictions | reverse %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ p.user.username if p.user else 'Anonymous' }}</td>
-                            <td title="{{ p.model }}">{{ p.model }}</td>
-                            <td>{{ p.model_year }}</td>
-                            <td>{{ p.milage }}</td>
-                            <td>{{ 'Manual' if p.transmission == '0' else 'Automatic' }}</td>
-                            <td>{{ 'Medium' if p.condition == '1' else 'Mint' }}</td>
-                            <td>{{ p.location.replace('_',' ').title() }}</td>
-                            <td>{{ p.cc }}</td>
-                            <td>{{ 'Yes' if p.power_steering else 'No' }}</td>
-                            <td>{{ 'Yes' if p.push_start else 'No' }}</td>
-                            <td>{{ "{:,}".format(p.price) }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% else %}
-            <div class="no-data">No predictions found.</div>
-        {% endif %}
-
-    </div>
+<section class="bg-surface-container-lowest rounded-3xl shadow-sm border border-outline-variant/20 overflow-hidden relative">
+    {% if predictions %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse whitespace-nowrap">
+                <thead>
+                    <tr>
+                        <th class="py-4 px-5 text-[10px] font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10">ID</th>
+                        <th class="py-4 px-5 text-[10px] font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10">User</th>
+                        <th class="py-4 px-5 text-[10px] font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10">Model</th>
+                        <th class="py-4 px-5 text-[10px] font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10 text-right">Predicted (LKR)</th>
+                        <th class="py-4 px-5 text-[10px] font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10">Milage</th>
+                        <th class="py-4 px-5 text-[10px] font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10">Features</th>
+                        <th class="py-4 px-5 text-[10px] font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10">Location</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant/10 text-sm">
+                    {% for p in predictions | reverse %}
+                    <tr class="hover:bg-surface-container-lowest/50 transition-colors group">
+                        <td class="py-4 px-5 font-bold text-outline text-xs">#{{ loop.index }}</td>
+                        <td class="py-4 px-5 text-on-surface-variant font-medium">
+                            <span class="bg-surface-container-high px-2 py-1 rounded text-xs">{{ p.user.username if p.user else 'Anonymous' }}</span>
+                        </td>
+                        <td class="py-4 px-5">
+                            <span class="font-headline font-bold text-primary block">{{ p.model }}</span>
+                            <span class="text-[10px] font-black uppercase text-outline mt-0.5 tracking-widest">{{ p.model_year }} Model</span>
+                        </td>
+                        <td class="py-4 px-5 text-right font-headline font-black text-tertiary-container">
+                            {{ "{:,.2f}".format(p.price) }}
+                        </td>
+                        <td class="py-4 px-5 text-on-surface-variant font-medium">
+                            {{ p.milage }} KM • {{ p.cc }} CC <br/>
+                            <span class="text-xs text-outline">{{ 'Manual' if p.transmission == '0' else 'Automatic' }} • {{ 'Medium' if p.condition == '0' else 'Mint' }}</span>
+                        </td>
+                        <td class="py-4 px-5 text-outline text-xs">
+                            PS: {{ 'Yes' if p.power_steering else 'No' }} <br/>
+                            Push: {{ 'Yes' if p.push_start else 'No' }}
+                        </td>
+                        <td class="py-4 px-5 font-medium text-xs text-on-surface-variant">
+                            {{ p.location.replace('_',' ').title() }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="flex flex-col items-center justify-center py-24 text-center">
+            <span class="material-symbols-outlined text-6xl text-outline-variant mb-4 opacity-50">manage_search</span>
+            <p class="text-on-surface-variant font-bold text-lg mb-2">No Historical Data</p>
+            <p class="text-sm text-outline font-medium">The neural engine has not processed any price predictions yet.</p>
+        </div>
+    {% endif %}
 </section>
-
-
-</style>
-
 {% endblock %}

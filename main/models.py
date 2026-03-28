@@ -73,8 +73,8 @@ class Admin(db.Model,UserMixin):
 
 class Budgetrequest(db.Model):
     id=db.Column(db.Integer,primary_key=True,unique=True,nullable=False)
-    model=db.Column(db.String(20),unique=True,nullable=False)
-    year=db.Column(db.String(40),unique=True,nullable=False)
+    model=db.Column(db.String(20),nullable=False)
+    year=db.Column(db.String(40),nullable=False)
     price=db.Column(db.Integer,nullable=False)
 
     def __repr__(self):

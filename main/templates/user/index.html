@@ -1,113 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle IQ - AI Prediction System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static',filename='index.css') }}">
-    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/logo.png') }}">
-    <script src="https://kit.fontawesome.com/36dd93e96b.js" crossorigin="anonymous"></script>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                Vehicle<span class="logo-highlight">IQ</span>
-            </div>
-            <div class="nav-links">
-                {% if current_user.is_authenticated %}
-                <a href="{{url_for('about')}}" class="nav-link"><i class="fa-solid fa-circle-info"></i> Info</a>
-                <a href="{{url_for('feedback')}}" class="nav-link"><i class="fa-solid fa-comment"></i> Feedback</a>
-                <a href="{{url_for('account')}}" class="nav-link"><i class="fa-regular fa-circle-user"></i> Account</a>
-                {% else %}
-                <a href="{{url_for('about')}}" class="nav-link"><i class="fa-solid fa-circle-info"></i> Info</a>
-                <a href="{{url_for('login')}}" class="nav-link"><i class="fa-solid fa-user"></i> Sign In</a>
-                <a href="{{url_for('register')}}" class="nav-link"><i class="fa-solid fa-plus"></i> Sign Up</a>
-                {% endif %}
-            </div>
-        </div>
-    </nav>
+{% extends "user/base.html" %}
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content"><br><br><br><br>
+{% block title %}Vehicle IQ - Home{% endblock %}
+
+{% block main_class %}
+    pt-0
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative min-h-[870px] flex items-start lg:items-start px-8 lg:px-20 overflow-hidden bg-surface pt-16 lg:pt-20">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full max-w-7xl mx-auto">
+        <div class="lg:col-span-7 z-10 pt-16">
             {% if current_user.is_authenticated %}
-            <p>
-                <div class="hero-label">
+            <div class="inline-block bg-primary-container text-on-primary-container px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
                 <span>Hello {{ current_user.username }}!</span>
             </div>
-            </p>
             {% else %}
-            <div class="hero-label">
+            <div class="inline-block bg-primary-container text-on-primary-container px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
                 <span>AI Prediction Engine</span>
             </div>
             {% endif %}
             
-            <h1 class="hero-title">
-                Vehicle<span class="hero-highlight">IQ</span>
-            </h1><hr>
+            <h1 class="font-headline font-extrabold text-5xl md:text-7xl text-primary tracking-tighter leading-[0.95] mb-6">
+                Instant Vehicle <br/>
+                <span class="text-primary-container">Valuation.</span>
+            </h1>
+            <p class="text-on-surface-variant text-lg md:text-xl max-w-xl mb-10 leading-relaxed font-body">
+                Leverage institutional-grade data and neural networks to determine the precise market value of any asset in seconds.
+            </p>
             
-            <p class="hero-subtitle">
-                Discover the true value of any vehicle with our AI-driven price prediction tool. Get fast, reliable estimates and make smarter decisions when buying or selling cars.
-            </p>
-            <a href="{{ url_for('predict') }}" class="hero-cta">
-                <span>Predict Now</span>
-                <i class="fas fa-arrow-right"></i>
-             </a><br><br><br>
-             <p class="hero-subtitle" style="font-size: large;">
-               Accurate Prices. Confident Decisions.
-            </p>
-            <p>
-                <a href="{{ url_for('search') }}" class="hero-highlight button round-button">
-                    <span>Search With Budget</span>
-                </a>
-            </p>
-        </div>
-    </section>
-
-    <!-- YOUR EXACT FEATURES SECTION -->
-    <main class="features-section">
-        <!-- Features Section -->
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-tools"></i>
+            <!-- Quick Cta Action -->
+            <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm max-w-lg border border-outline-variant/20">
+                <p class="text-xs font-bold uppercase tracking-widest text-outline mb-4">Jump Straight In</p>
+                <div class="flex flex-col gap-4 sm:flex-row">
+                    <a href="{{ url_for('prediction.predict') }}" class="flex-1 bg-primary text-on-primary font-headline font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 hover:scale-[1.02] shadow-md transition-all">
+                        Predict Price
+                        <span class="material-symbols-outlined text-sm">trending_up</span>
+                    </a>
+                    <a href="{{ url_for('searchs.search') }}" class="flex-1 bg-surface-container text-on-surface font-headline font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:bg-surface-dim hover:scale-[1.02] transition-all border border-outline-variant/20">
+                        Budget Search
+                        <span class="material-symbols-outlined text-sm">search</span>
+                    </a>
                 </div>
-                <h3>Pred Maintenance</h3>
-                <p>Prevent breakdowns before they happen</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3>Analyze Performance</h3>
-                <p>Real-time insights into fleet efficiency</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-cogs"></i>
-                </div>
-                <h3>Optimize Fleet</h3>
-                <p>Maximize uptime and reduce costs</p>
             </div>
         </div>
-    </main>
-
-    <!-- YOUR EXACT FOOTER -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2026 Vehicle IQ. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Support</a>
+        
+        <div class="lg:col-span-5 relative">
+            <div class="aspect-square rounded-full bg-primary-fixed/40 absolute -top-20 -right-20 blur-3xl"></div>
+            
+            <!-- Hero Image Frame -->
+            <div class="relative bg-surface p-2 rounded-full border-4 border-surface-container shadow-2xl overflow-hidden group">
+                <img class="rounded-full object-cover aspect-square transition-transform duration-700 group-hover:scale-105" 
+                     src="{{ url_for('static', filename='images/luxury_sedan_studio_1774540370744.png') }}" 
+                     alt="Sleek Modern Luxury Sedan" />
+                <div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent rounded-full mix-blend-multiply"></div>
+            </div>
+            
+            <!-- Floating Data Card -->
+            <div class="absolute bottom-10 -left-10 bg-surface-container-lowest p-5 rounded-2xl shadow-xl border border-outline-variant/20 max-w-[240px] animate-pulse-slow">
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="w-12 h-12 rounded-xl bg-tertiary-fixed/20 flex items-center justify-center text-tertiary-container shadow-inner">
+                        <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">analytics</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black text-outline uppercase tracking-wider">Confidence Score</p>
+                        <p class="text-2xl font-headline font-black text-primary">98.4%</p>
+                    </div>
+                </div>
+                <div class="h-2 w-full bg-surface-container rounded-full overflow-hidden shadow-inner">
+                    <div class="h-full bg-tertiary-fixed-dim w-[98.4%] rounded-full shadow-[0_0_10px_rgba(0,228,117,1)]"></div>
+                </div>
             </div>
         </div>
-    </footer>
+    </div>
+</section>
 
-  
-</body>
-</html>
+
+{% endblock %}

@@ -1,49 +1,49 @@
 {% extends "admin/base_admin.html" %}
-{% block title %}Admin • vehicle{% endblock %}
+{% block title %}Vehicle List | Vehicle-IQ{% endblock %}
 
 {% block main_content %}
-
-<header class="dashboard-header">
-    <h1 class="dashboard-title">Vehicles</h1>
+<header class="flex justify-between items-end mb-12">
+    <div class="max-w-2xl">
+        <h2 class="text-4xl font-extrabold text-primary tracking-tight mb-2 font-headline">Vehicle Info</h2>
+        <p class="text-on-surface-variant font-body">All vehicles.</p>
+    </div>
+    <div class="flex items-center gap-4">
+        <a href="{{ url_for('info.add_vehicle') }}" class="flex items-center gap-2 px-5 py-3 bg-primary text-on-primary font-headline font-black text-sm uppercase tracking-wider rounded-xl hover:-translate-y-0.5 active:translate-y-0 transition-all shadow-md shadow-primary/20">
+            <span class="material-symbols-outlined text-[18px]">add</span> Add Vehicle
+        </a>
+    </div>
 </header>
 
-<section class="table-section">
-    <div class="section-card">
-
-        <!--  Top Bar -->
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-            <h2 class="section-title">Vehicle List</h2>
-            <a href="{{ url_for('add_vehicle')}}">
-                <button class="btn btn-primary">+ Add Vehicle</button>
-            </a>
-        </div>
-
-        {% if vehicles %}
-            <table class="feedback-table">
+<section class="bg-surface-container-lowest rounded-3xl shadow-sm border border-outline-variant/20 overflow-hidden relative">
+    {% if vehicles %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Vehicle Type</th>
-                        <th>Fuel Type</th>
-                        <th>Action</th>
+                        <th class="py-4 px-6 text-xs font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10 w-16">#</th>
+                        <th class="py-4 px-6 text-xs font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10">Brand</th>
+                        <th class="py-4 px-6 text-xs font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10">Model</th>
+                        <th class="py-4 px-6 text-xs font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10">Type</th>
+                        <th class="py-4 px-6 text-xs font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10">Fuel Type</th>
+                        <th class="py-4 px-6 text-xs font-black text-outline-variant uppercase tracking-widest bg-surface-container-low border-b border-outline-variant/10 text-right">Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-outline-variant/10">
                     {% for v in vehicles %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ v.brand }}</td>
-                        <td>{{ v.model }}</td>
-                        <td>{{ v.vehicle_category }}</td>
-                        <td>{{ v.fuel_type }}</td>
-                        <td>
-                            <!--  Delete Button -->
-                            <form action="{{ url_for('delete_vehicle',vehicle_id=v.id)}}" method="POST" style="display:inline;">
-                                <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this vehicle?');">
-                                    Delete
+                    <tr class="hover:bg-surface-container-lowest/50 transition-colors group">
+                        <td class="py-4 px-6 text-sm font-bold text-outline">{{ loop.index }}</td>
+                        <td class="py-4 px-6">
+                            <span class="text-[10px] font-black uppercase text-secondary-container bg-secondary-fixed/50 px-2.5 py-1 rounded shadow-sm border border-secondary-fixed">{{ v.brand }}</span>
+                        </td>
+                        <td class="py-4 px-6 font-headline font-bold text-primary">{{ v.model }}</td>
+                        <td class="py-4 px-6 text-on-surface-variant font-medium text-sm">{{ v.vehicle_category }}</td>
+                        <td class="py-4 px-6 text-on-surface-variant font-medium text-sm">{{ v.fuel_type }}</td>
+                        <td class="py-4 px-6 text-right">
+                            <form action="{{ url_for('info.delete_vehicle', vehicle_id=v.id) }}" method="POST" class="inline-block">
+                                <button type="submit" 
+                                    class="text-[10px] font-black uppercase text-error bg-error/10 px-3 py-1.5 rounded-md hover:bg-error hover:text-white transition-all border border-error/20 flex items-center gap-1 shadow-sm ml-auto"
+                                    onclick="return confirm('WARNING: Destroying vehicle record from prediction matrix. Confirm destruction?');">
+                                    <span class="material-symbols-outlined text-[14px]">delete_forever</span> Delete
                                 </button>
                             </form>
                         </td>
@@ -51,11 +51,14 @@
                     {% endfor %}
                 </tbody>
             </table>
-        {% else %}
-            <p>No vehicles found.</p>
-        {% endif %}
-
-    </div>
+        </div>
+    {% else %}
+        <div class="flex flex-col items-center justify-center py-24 text-center">
+            <span class="material-symbols-outlined text-6xl text-outline-variant mb-4 opacity-50">battery_alert</span>
+            <p class="text-on-surface-variant font-bold text-lg mb-2">No Vehicles Detected</p>
+            <p class="text-sm text-outline font-medium">The prediction matrix requires initial data injection.</p>
+        </div>
+    {% endif %}
 </section>
 
 {% endblock %}

@@ -1,4 +1,0 @@
-pip install email-validator
-pip install flask-login
-pip install flask-wtf
-pip install flask-bcrypt

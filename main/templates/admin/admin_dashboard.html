@@ -1,88 +1,172 @@
-<!-- templates/admin_dashboard.html -->
 {% extends "admin/base_admin.html" %}
-{% block title %}Admin Dashboard{% endblock %}
-{% block main_content %}
+{% block title %}Dashboard Overview | Vehicle IQ{% endblock %}
 
-<header class="dashboard-header">
-    <h1 class="dashboard-title">Admin Dashboard</h1>
-    <div class="welcome-text">Welcome back, Admin</div>
+{% block main_content %}
+<!-- Header & Search -->
+<header class="flex justify-between items-end mb-12">
+    <div class="max-w-2xl">
+        <h2 class="text-4xl font-extrabold text-primary tracking-tight mb-2 font-headline">Admin Dashboard</h2>
+        <p class="text-on-surface-variant font-body">System operations, user interactions</p>
+    </div>
+    <div class="flex items-center gap-4">
+        <button class="p-2 text-on-surface-variant bg-surface-container-low hover:bg-surface-container rounded-full transition-colors border border-outline-variant/20 shadow-sm relative">
+            <span class="material-symbols-outlined text-xl">notifications</span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-white"></span>
+        </button>
+        <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="w-8 h-8 rounded-md bg-primary flex flex-shrink-0 items-center justify-center text-white font-headline font-bold text-xs">
+                AD
+            </div>
+            <div>
+                <p class="text-xs font-bold text-primary">System Admin</p>
+                <p class="text-[9px] font-black text-tertiary-container uppercase tracking-widest">Connected</p>
+            </div>
+        </div>
+    </div>
 </header>
 
-<section class="stats-grid">
-    <article class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-car"></i>
+<!-- Stats Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+    <!-- Stat Card 1 -->
+    <article class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/20 relative overflow-hidden group hover:shadow-md transition-shadow">
+        <div class="absolute -right-6 -top-6 w-24 h-24 bg-primary-fixed/20 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+        <div class="flex items-center justify-between mb-4 relative z-10">
+            <div class="w-12 h-12 bg-primary-fixed/30 rounded-xl flex items-center justify-center text-primary-container">
+                <span class="material-symbols-outlined text-2xl">directions_car</span>
+            </div>
+            <span class="text-xs font-bold text-primary bg-primary-container text-white px-2 py-1 rounded shadow-sm">+12 Today</span>
         </div>
-        <div class="stat-value">1,247</div>
-        <div class="stat-label">Total Vehicles</div>
+        <p class="text-4xl font-black font-headline text-primary relative z-10">1,247</p>
+        <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">Total Registry</p>
     </article>
-    <article class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-search"></i>
+    
+    <!-- Stat Card 2 -->
+    <article class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/20 relative overflow-hidden group hover:shadow-md transition-shadow">
+        <div class="absolute -right-6 -top-6 w-24 h-24 bg-tertiary-fixed/20 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+        <div class="flex items-center justify-between mb-4 relative z-10">
+            <div class="w-12 h-12 bg-tertiary-fixed/30 rounded-xl flex items-center justify-center text-tertiary-container">
+                <span class="material-symbols-outlined text-2xl">search_insights</span>
+            </div>
         </div>
-        <div class="stat-value">324</div>
-        <div class="stat-label">Searches Today</div>
+        <p class="text-4xl font-black font-headline text-primary relative z-10">324</p>
+        <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">Searches Today</p>
     </article>
-    <article class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-users"></i>
+    
+    <!-- Stat Card 3 -->
+    <article class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/20 relative overflow-hidden group hover:shadow-md transition-shadow">
+        <div class="absolute -right-6 -top-6 w-24 h-24 bg-secondary-fixed/20 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+        <div class="flex items-center justify-between mb-4 relative z-10">
+            <div class="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container">
+                <span class="material-symbols-outlined text-2xl">group</span>
+            </div>
+            <span class="text-xs font-bold bg-error-container text-on-error-container px-2 py-1 rounded shadow-sm flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">trending_down</span> 3%</span>
         </div>
-        <div class="stat-value">892</div>
-        <div class="stat-label">Active Users</div>
+        <p class="text-4xl font-black font-headline text-primary relative z-10">892</p>
+        <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">Active Users</p>
     </article>
-    <article class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-comment"></i>
+    
+    <!-- Stat Card 4 -->
+    <article class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/20 relative overflow-hidden group hover:shadow-md transition-shadow">
+        <div class="absolute -right-6 -top-6 w-24 h-24 bg-surface-container-higher rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+        <div class="flex items-center justify-between mb-4 relative z-10">
+            <div class="w-12 h-12 bg-surface-container-highest rounded-xl flex items-center justify-center text-on-surface-variant">
+                <span class="material-symbols-outlined text-2xl">chat</span>
+            </div>
         </div>
-        <div class="stat-value">47</div>
-        <div class="stat-label">New Feedback</div>
+        <p class="text-4xl font-black font-headline text-primary relative z-10">47</p>
+        <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">New Feedback</p>
     </article>
 </section>
 
-<section class="activity-section">
-    <article class="section-card">
-        <h2 class="section-title">Recent Activity</h2>
-        <div class="activity-list">
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <i class="fas fa-car"></i>
+<!-- Activity Layout -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <article class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline-variant/20">
+        <div class="flex justify-between items-center mb-8">
+            <h3 class="text-xl font-bold font-headline text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary-fixed">vital_signs</span> Recent Activity Stream
+            </h3>
+            <button class="text-xs font-bold text-primary hover:underline">View Log</button>
+        </div>
+        
+        <div class="space-y-4">
+            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/10">
+                <div class="w-10 h-10 bg-primary-fixed/20 rounded-full flex items-center justify-center text-primary-container shrink-0 mt-1">
+                    <span class="material-symbols-outlined text-sm">directions_car</span>
                 </div>
-                <div class="activity-content">
-                    <h4>Vehicle Added</h4>
-                    <p>Toyota Camry 2024 added to database</p>
+                <div>
+                    <h4 class="font-bold text-on-surface text-sm">Vehicle Added to Registry</h4>
+                    <p class="text-on-surface-variant text-sm mt-0.5 leading-relaxed">System Admin appended Toyota Camry 2024 to the predictive database matrix.</p>
+                    <p class="text-[10px] font-black uppercase text-outline mt-2 tracking-widest">Just Now</p>
                 </div>
             </div>
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <i class="fas fa-search"></i>
+            
+            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/10">
+                <div class="w-10 h-10 bg-tertiary-fixed/20 rounded-full flex items-center justify-center text-tertiary-container shrink-0 mt-1">
+                    <span class="material-symbols-outlined text-sm">search</span>
                 </div>
-                <div class="activity-content">
-                    <h4>Search Performed</h4>
-                    <p>User searched for "electric SUV" - 12:15 PM</p>
+                <div>
+                    <h4 class="font-bold text-on-surface text-sm">Budget Search Executed</h4>
+                    <p class="text-on-surface-variant text-sm mt-0.5 leading-relaxed">User <span class="font-bold">#8429</span> performed deep query for "Electric SUV".</p>
+                    <p class="text-[10px] font-black uppercase text-outline mt-2 tracking-widest">12:15 PM</p>
                 </div>
             </div>
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <i class="fas fa-star"></i>
+            
+            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/10">
+                <div class="w-10 h-10 bg-secondary-fixed/30 rounded-full flex items-center justify-center text-on-secondary-container shrink-0 mt-1">
+                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
                 </div>
-                <div class="activity-content">
-                    <h4>New Feedback</h4>
-                    <p>Great search results! - John D.</p>
+                <div>
+                    <h4 class="font-bold text-on-surface text-sm">Feedback Received</h4>
+                    <p class="text-on-surface-variant text-sm mt-0.5 leading-relaxed">"Great search results! Appreciate the fast response time." - User <span class="font-bold">John D.</span></p>
+                    <p class="text-[10px] font-black uppercase text-outline mt-2 tracking-widest">09:42 AM</p>
                 </div>
             </div>
         </div>
     </article>
-    <aside class="section-card quick-actions">
-        <h2 class="section-title">Quick Actions</h2>
-        <div class="action-buttons">
-            <button class="action-btn primary">
-                <i class="fas fa-sync-alt"></i>
-                Sync Data
-            </button>
-            <button class="action-btn secondary">
-                <i class="fas fa-download"></i>
-                Export Report
-            </button>
+
+    <aside class="space-y-6">
+        <!-- Quick Actions -->
+        <div class="bg-primary-container text-white p-8 rounded-3xl shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-primary-fixed/20 rounded-full blur-2xl"></div>
+            <h3 class="text-xl font-bold font-headline mb-6 relative z-10">Terminal Commands</h3>
+            
+            <div class="space-y-3 relative z-10">
+                <button class="w-full bg-white text-primary font-bold font-headline py-3 px-4 rounded-xl flex items-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md">
+                    <span class="material-symbols-outlined text-primary-fixed">sync</span> Database Sync
+                </button>
+                <button class="w-full bg-primary text-white border-2 border-primary-fixed/30 font-bold font-headline py-3 px-4 rounded-xl flex items-center gap-3 hover:bg-primary-fixed/20 transition-all">
+                    <span class="material-symbols-outlined">download</span> Export Matrix
+                </button>
+            </div>
+        </div>
+        
+        <!-- System Health Widget -->
+        <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/20">
+            <h3 class="text-sm font-bold font-headline text-primary mb-4 flex justify-between items-center">
+                Subsystem Health
+                <span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim shadow-[0_0_8px_rgba(0,228,117,1)] animate-pulse"></span>
+            </h3>
+            
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-on-surface-variant">Prediction Core</span>
+                        <span class="text-primary">Operational</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+                        <div class="h-full bg-tertiary-fixed-dim w-full"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-on-surface-variant">Storage Array</span>
+                        <span class="text-primary-fixed">76%</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+                        <div class="h-full bg-primary-fixed w-[76%]"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </aside>
 </section>

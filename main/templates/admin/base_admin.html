@@ -1,66 +1,167 @@
-<!-- templates/base_admin.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>{% block title %}Admin Dashboard{% endblock %}</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='admin-dashboard.css') }}">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{% block title %}Admin Terminal | Vehicle IQ{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/logo.png') }}">
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "surface-container-lowest": "#ffffff",
+                  "tertiary-fixed": "#62ff96",
+                  "error-container": "#ffdad6",
+                  "inverse-surface": "#2d3133",
+                  "tertiary-container": "#003818",
+                  "primary-fixed-dim": "#b0c6ff",
+                  "on-tertiary-fixed": "#00210b",
+                  "on-tertiary-container": "#00ae58",
+                  "surface-container-highest": "#e0e3e5",
+                  "secondary": "#4c616c",
+                  "primary": "#001944",
+                  "on-background": "#191c1e",
+                  "on-secondary-fixed-variant": "#354a53",
+                  "on-surface-variant": "#454652",
+                  "on-surface": "#191c1e",
+                  "outline-variant": "#c6c5d4",
+                  "on-error": "#ffffff",
+                  "error": "#ba1a1a",
+                  "primary-fixed": "#d9e2ff",
+                  "surface-container": "#eceef0",
+                  "surface-bright": "#f8f9fb",
+                  "background": "#f8f9fb",
+                  "on-primary-container": "#6b95f3",
+                  "on-secondary-container": "#526772",
+                  "on-secondary": "#ffffff",
+                  "secondary-fixed": "#cfe6f2",
+                  "outline": "#767683",
+                  "on-primary": "#ffffff",
+                  "inverse-on-surface": "#eff1f3",
+                  "on-primary-fixed": "#001945",
+                  "tertiary": "#00200b",
+                  "secondary-container": "#cfe6f2",
+                  "on-primary-fixed-variant": "#00429c",
+                  "surface": "#f8f9fb",
+                  "surface-container-low": "#f2f4f6",
+                  "secondary-fixed-dim": "#b4cad6",
+                  "surface-tint": "#2b5bb5",
+                  "surface-dim": "#d8dadc",
+                  "primary-container": "#002c6e",
+                  "on-tertiary-fixed-variant": "#005226",
+                  "on-error-container": "#93000a",
+                  "surface-variant": "#e0e3e5",
+                  "inverse-primary": "#b0c6ff",
+                  "surface-container-high": "#e6e8ea",
+                  "tertiary-fixed-dim": "#00e475",
+                  "on-secondary-fixed": "#071e27",
+                  "on-tertiary": "#ffffff"
+                },
+                fontFamily: {
+                  "headline": ["Manrope"],
+                  "body": ["Inter"],
+                  "label": ["Inter"]
+                },
+                borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+              },
+            },
+          }
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
 </head>
-<body>
-    <div class="top-bar">
-        <a href="{{ url_for('admin_logout') }}" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i>
-            Logout
-        </a>
+<body class="bg-surface text-on-surface font-body antialiased flex">
+
+    <!-- Flash Messages via Toast (Top Right) -->
+    <div class="fixed top-8 right-8 z-[100] flex flex-col gap-2 pointer-events-none">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% set bg_color = 'bg-tertiary-fixed' if category == 'success' else 'bg-error' if category == 'danger' else 'bg-primary' %}
+                    {% set text_color = 'text-on-tertiary-fixed' if category == 'success' else 'text-white' %}
+                    <div class="{{ bg_color }} {{ text_color }} px-6 py-3 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)] font-headline font-bold text-sm pointer-events-auto flex items-center gap-3 border border-black/5">
+                        <span class="material-symbols-outlined text-sm">{{ 'check_circle' if category == 'success' else 'error' }}</span>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
 
-    <div class="flash-container">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="flash {{ category }}">
-                    {{ message }}
+    <!-- Sidebar Navigation Shell -->
+    <aside class="h-screen w-64 fixed left-0 top-0 bg-slate-900 flex flex-col py-6 gap-4 z-40 border-r border-slate-800 shadow-2xl">
+        <div class="px-6 mb-8 mt-2">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-primary-container flex items-center justify-center rounded-lg border border-primary-fixed/20 shadow-inner">
+                    <span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
                 </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-</div>
+                <div>
+                    <h1 class="font-headline font-extrabold text-white text-lg leading-tight">Admin Shell</h1>
+                    <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Secure Terminal</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="flex-1 space-y-1 overflow-y-auto px-2">
+            <div class="px-4 py-2 mt-2 text-[10px] uppercase tracking-widest text-slate-500 font-black">Main Menu</div>
+            <a href="{{ url_for('admin.admin_dashboard') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg transition-all duration-200 {% if active_nav == 'dashboard' %}bg-primary-fixed/10 text-primary-fixed font-bold border border-primary-fixed/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1{% endif %}">
+                <span class="material-symbols-outlined {% if active_nav == 'dashboard' %}" style="font-variation-settings: 'FILL' 1;"{% else %}"{% endif %}>dashboard</span>
+                <span class="text-sm">Dashboard</span>
+            </a>
+            
+            <a href="{{ url_for('searchs.admin_search') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg transition-all duration-200 {% if active_nav == 'search' %}bg-primary-fixed/10 text-primary-fixed font-bold border border-primary-fixed/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1{% endif %}">
+                <span class="material-symbols-outlined {% if active_nav == 'search' %}" style="font-variation-settings: 'FILL' 1;"{% else %}"{% endif %}>search</span>
+                <span class="text-sm">Budget Search</span>
+            </a>
+            
+            <a href="{{ url_for('info.admin_vehicles') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg transition-all duration-200 {% if active_nav == 'add-vehicle' %}bg-primary-fixed/10 text-primary-fixed font-bold border border-primary-fixed/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1{% endif %}">
+                <span class="material-symbols-outlined {% if active_nav == 'add-vehicle' %}" style="font-variation-settings: 'FILL' 1;"{% else %}"{% endif %}>directions_car</span>
+                <span class="text-sm">Vehicles</span>
+            </a>
 
-    <nav class="sidebar">
-        <div class="nav-group">
-            <div class="nav-title">MAIN</div>
-            <a href="{{ url_for('admin_dashboard') }}" class="nav-item {% if active_nav == 'dashboard' %}active{% endif %}">
-                <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
+            <div class="px-4 py-2 mt-6 text-[10px] uppercase tracking-widest text-slate-500 font-black">Reports</div>
+            <a href="{{ url_for('prediction.admin_predictions') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg transition-all duration-200 {% if active_nav == 'history' %}bg-primary-fixed/10 text-primary-fixed font-bold border border-primary-fixed/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1{% endif %}">
+                <span class="material-symbols-outlined {% if active_nav == 'history' %}" style="font-variation-settings: 'FILL' 1;"{% else %}"{% endif %}>history</span>
+                <span class="text-sm">Prediction History</span>
             </a>
-            <a href="{{ url_for('admin_search') }}" class="nav-item {% if active_nav == 'search' %}active{% endif %}">
-                <i class="fas fa-search"></i>
-                <span>Budget Search</span>
+            
+            <a href="{{ url_for('feedbacks.admin_feedback') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg transition-all duration-200 {% if active_nav == 'feedback' %}bg-primary-fixed/10 text-primary-fixed font-bold border border-primary-fixed/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1{% endif %}">
+                <span class="material-symbols-outlined {% if active_nav == 'feedback' %}" style="font-variation-settings: 'FILL' 1;"{% else %}"{% endif %}>reviews</span>
+                <span class="text-sm">Feedback </span>
             </a>
-            <a href="{{url_for('admin_vehicles')}}" class="nav-item {% if active_nav == 'add-vehicle' %}active{% endif %}">
-                <i class="fas fa-plus-circle"></i>
-                <span> Vehicles</span>
+        </nav>
+        
+        <div class="px-4 mt-auto">
+            <div class="bg-slate-800 rounded-xl p-4 mb-4 border border-slate-700">
+                <p class="text-xs text-slate-400 font-medium mb-2">Need public interface?</p>
+                <a href="{{ url_for('index.home') }}" class="text-primary-fixed hover:text-white text-xs font-bold flex items-center gap-1 transition-colors">
+                    Go to Application <span class="material-symbols-outlined text-[10px]">open_in_new</span>
+                </a>
+            </div>
+            <a href="{{ url_for('admin.admin_logout') }}" class="w-full bg-error/10 text-error hover:bg-error/20 py-3 rounded-xl font-bold font-headline flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all border border-error/20">
+                <span class="material-symbols-outlined text-[18px]">logout</span>
+                Logout
             </a>
         </div>
-        <div class="nav-group">
-            <a href="{{ url_for('admin_predictions') }}" class="nav-item {% if active_nav == 'history' %}active{% endif %}">
-                <i class="fas fa-history"></i>
-                <span>History</span>
-            </a>
-            <a href="{{ url_for('admin_feedback') }}" class="nav-item {% if active_nav == 'feedback' %}active{% endif %}">
-                <i class="fas fa-comment-dots"></i>
-                <span>Feedback</span>
-            </a>
-        </div>
-    </nav>
+    </aside>
 
-    <main class="main-content">
+    <!-- Main Content Canvas -->
+    <main class="ml-64 min-h-screen p-8 lg:p-12 w-full flex-grow flex flex-col bg-surface-bright">
         {% block main_content %}{% endblock %}
+        
+        <!-- Subtle Admin Footer -->
+        <footer class="mt-auto pt-10 border-t border-outline-variant/10 flex justify-between items-center text-xs text-outline font-medium">
+            <p>&copy; 2026 Vehicle IQ. All rights reserved.</p>
+            <p>Admin Terminal v2.1.0</p>
+        </footer>
     </main>
 </body>
 </html>
