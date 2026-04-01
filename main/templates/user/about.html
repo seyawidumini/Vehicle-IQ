@@ -1,0 +1,56 @@
+{% extends "user/base.html" %}
+
+{% block title %}About  | Vehicle IQ{% endblock %}
+
+{% block content %}
+<div class="px-8 lg:px-12 py-10 max-w-7xl mx-auto min-h-[75vh]">
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+        <div class="max-w-2xl">
+            <span class="inline-block bg-primary-container text-on-primary-container px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">Simple and Accurate</span>
+            <h2 class="text-4xl font-extrabold font-headline text-primary tracking-tight mb-2">Vehicle Information</h2>
+            <p class="text-on-surface-variant font-body text-lg">Explore our comprehensive vehicle collection with verified real-time details and specifications utilized by our AI prediction core.</p>
+        </div>
+    </header>
+
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {% for vehicle in vehicles %}
+        <!-- Vehicle Card -->
+        <div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all border border-outline-variant/10 group flex flex-col">
+            <div class="aspect-[3/2] bg-surface-container-highest relative overflow-hidden">
+                <img src="{{ url_for('static', filename=vehicle.photo) if vehicle.photo else url_for('static', filename='images/vehicle-left.jpg') }}" 
+                     alt= "{{ vehicle.model }}" 
+                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                     onerror=this.src="{{ url_for('static', filename='images/vehicle-left.jpg') }}" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col justify-between bg-white relative z-10">
+                <div>
+                    <h3 class="font-headline font-black text-xl text-primary leading-tight mb-1">{{ vehicle.model }}</h3>
+                    <p class="text-xs font-bold text-outline-variant uppercase tracking-widest mb-4">{{ vehicle.brand }}</p>
+                </div>
+                
+                <div class="space-y-2 mt-2 pt-4 border-t border-outline-variant/10">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-on-surface-variant font-medium flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">category</span> Type
+                        </span>
+                        <span class="font-bold text-on-surface">{{ vehicle.vehicle_category }}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-on-surface-variant font-medium flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">local_gas_station</span> Fuel Type
+                        </span>
+                        <span class="font-bold text-on-surface">{{ vehicle.fuel_type }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-span-full py-20 text-center text-on-surface-variant bg-surface-container rounded-3xl border-2 border-dashed border-outline-variant/30">
+            <span class="material-symbols-outlined text-5xl mb-3 opacity-50">garage</span>
+            <p class="font-bold">The fleet database is currently empty.</p>
+        </div>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}
