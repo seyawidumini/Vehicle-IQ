@@ -1,0 +1,299 @@
+{% extends "user/base.html" %}
+
+{% block title %}Prediction Dashboard | Vehicle IQ{% endblock %}
+
+{% block content %}
+<div class="px-8 lg:px-12 py-10 max-w-[1600px] mx-auto">
+    <!-- Header -->
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+        <div class="max-w-2xl">
+            <h2 class="text-4xl font-extrabold text-primary tracking-tight mb-2 font-headline">Vehicle Valuation Intelligence</h2>
+            <p class="text-on-surface-variant font-body text-lg">Input vehicle specifics to generate institutional-grade market predictions powered by real-time spatial data analysis.</p>
+        </div>
+    </header>
+
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-10">
+        
+        <!-- Input Form Section -->
+        <section class="xl:col-span-4 space-y-6">
+            <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline-variant/20">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 rounded-xl bg-primary-fixed/30 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined">tune</span>
+                    </div>
+                    <h3 class="text-xl font-bold font-headline text-primary">Vehicle details</h3>
+                </div>
+
+                <form method="POST" action="/predict" class="space-y-6">
+                    {{ form.hidden_tag() }}
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            {{ form.model_year.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                            {{ form.model_year(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm transition-all", placeholder="e.g. 2020") }}
+                            {% if form.model_year.errors %}
+                                <p class="text-[10px] text-error mt-1 font-bold">{{ form.model_year.errors[0] }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="space-y-1">
+                            {{ form.age.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                            {{ form.age(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm transition-all",placeholder="Age",readonly=True) }}
+                            {% if form.age.errors %}
+                                <p class="text-[10px] text-error mt-1 font-bold">{{ form.age.errors[0] }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        {{ form.car_model.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                        <div class="relative">
+                            {{ form.car_model(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 pl-4 pr-10 text-on-surface font-semibold text-sm appearance-none transition-all cursor-pointer") }}
+                            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            {{ form.milage.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                            <div class="relative">
+                                {{ form.milage(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm pr-12 transition-all", placeholder="Km") }}
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-outline uppercase">KM</span>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            {{ form.cc.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                            <div class="relative">
+                                {{ form.cc(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm pr-12 transition-all", placeholder="CC") }}
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-outline uppercase">CC</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            {{ form.transmission.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                            <div class="relative">
+                                {{ form.transmission(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 pl-4 pr-10 text-on-surface font-semibold text-sm appearance-none cursor-pointer transition-all") }}
+                                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">settings</span>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            {{ form.fuel_type.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                            <div class="relative">
+                                {{ form.fuel_type(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 pl-4 pr-10 text-on-surface font-semibold text-sm appearance-none cursor-pointer transition-all") }}
+                                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">local_gas_station</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            {{ form.condition.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                            <div class="relative">
+                                {{ form.condition(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 pl-4 pr-10 text-on-surface font-semibold text-sm appearance-none cursor-pointer transition-all") }}
+                                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">done_all</span>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            {{ form.vehicle_type.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                            <div class="relative">
+                                {{ form.vehicle_type(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 pl-4 pr-10 text-on-surface font-semibold text-sm appearance-none cursor-pointer transition-all") }}
+                                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">directions_car</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            {{ form.location.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                            <div class="relative">
+                                {{ form.location(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 pl-4 pr-10 text-on-surface font-semibold text-sm appearance-none cursor-pointer transition-all") }}
+                                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">location_on</span>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            {{ form.color.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
+                            <div class="relative">
+                                {{ form.color(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 pl-4 pr-10 text-on-surface font-semibold text-sm appearance-none cursor-pointer transition-all") }}
+                                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">palette</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 pt-2">
+                        <label class="flex items-center gap-3 cursor-pointer group bg-surface-container p-3 rounded-lg flex-1 border border-transparent hover:border-primary-fixed transition-all">
+                            {{ form.power_steering(class="w-5 h-5 rounded text-primary focus:ring-primary-fixed border-outline-variant") }}
+                            <span class="text-xs font-bold font-headline select-none group-hover:text-primary transition-colors">Power Steering</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group bg-surface-container p-3 rounded-lg flex-1 border border-transparent hover:border-primary-fixed transition-all">
+                            {{ form.push_start(class="w-5 h-5 rounded text-primary focus:ring-primary-fixed border-outline-variant") }}
+                            <span class="text-xs font-bold font-headline select-none group-hover:text-primary transition-colors">Push Start</span>
+                        </label>
+                    </div>
+
+                    {{ form.submit(class="w-full py-4 mt-4 bg-primary text-white font-black font-headline text-lg rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer", value="Predict Market Value") }}
+                </form>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="xl:col-span-8 space-y-8 min-h-[75vh] flex flex-col">
+            {% if prediction is defined and prediction %}
+            <!-- Main Prediction Result Card -->
+            <div class="bg-primary-container text-white p-10 lg:p-14 rounded-3xl relative overflow-hidden shadow-2xl animate-fade-in-down border border-white/10">
+                <!-- Abstract Background Decorative Element -->
+                <div class="absolute -right-20 -top-20 w-96 h-96 bg-tertiary-fixed-dim/20 rounded-full blur-3xl animate-pulse-slow"></div>
+                <div class="absolute -left-10 -bottom-10 w-72 h-72 bg-primary-fixed/10 rounded-full blur-2xl"></div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row justify-between gap-12 items-center">
+                    <div class="space-y-6 w-full md:w-auto">
+                        <div>
+                            <span class="px-4 py-1.5 bg-tertiary-fixed text-on-tertiary-fixed rounded-full text-[10px] font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[14px]">verified</span> Institutional Valuation
+                            </span>
+                            <h3 class="text-5xl lg:text-7xl font-headline font-black mt-6 tracking-tighter drop-shadow-md whitespace-nowrap">
+                                LKR {{ "{:,.2f}".format(prediction) }}
+                            </h3>
+                            <p class="text-on-primary-container font-semibold mt-2 text-lg">Estimated Market Private Party Value</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center justify-center bg-white/10 backdrop-blur-xl rounded-full p-8 border-4 border-white/5 text-center min-w-[220px] shadow-[0_0_50px_rgba(0,0,0,0.2)]">
+                        <p class="text-xs font-black text-primary-fixed uppercase tracking-widest mb-4">Market Confidence</p>
+                        <div class="relative w-36 h-36 flex items-center justify-center group">
+                            <!-- Simple SVG Gauge -->
+                            <svg class="w-full h-full transform -rotate-90">
+                                <circle class="text-white/10" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" stroke-width="12"></circle>
+                                <circle class="text-tertiary-fixed-dim transition-all duration-1000 ease-out" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" stroke-dasharray="402" stroke-dashoffset="36" stroke-width="12" stroke-linecap="round"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center group-hover:scale-110 transition-transform">
+                                <span class="text-4xl font-black font-headline">91%</span>
+                                <span class="material-symbols-outlined text-tertiary-fixed-dim text-sm mt-1">trending_up</span>
+                            </div>
+                        </div>
+                        <p class="text-[10px] mt-6 text-on-primary-container leading-tight font-bold max-w-[140px]">High data density for this specific configuration</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Market Context Area -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in-up" style="animation-delay: 0.1s;">
+                 <!-- Explanation Card -->
+                <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline-variant/10">
+                    <h4 class="text-lg font-bold font-headline text-primary mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined">insights</span> AI Insights
+                    </h4>
+                    <div class="space-y-5">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-secondary-fixed/50 flex-shrink-0 flex items-center justify-center text-on-secondary-fixed">
+                                <span class="material-symbols-outlined text-sm">schedule</span>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-sm text-on-surface">Age Depreciation</h5>
+                                <p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Based on the model year ({{form.model_year.data}}), this vehicle has reached a stable depreciation curve plateau.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-secondary-fixed/50 flex-shrink-0 flex items-center justify-center text-on-secondary-fixed">
+                                <span class="material-symbols-outlined text-sm">speed</span>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-sm text-on-surface">Mileage Impact</h5>
+                                <p class="text-xs text-on-surface-variant mt-1 leading-relaxed">The mileage of {{form.milage.data}} KM affects the absolute value moderately against the current market average.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action Card -->
+                 <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline-variant/10 flex flex-col justify-center items-center text-center relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 opacity-5">
+                        <span class="material-symbols-outlined text-[150px]">car_rental</span>
+                    </div>
+                    <div class="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center mb-6 text-on-primary-container">
+                        <span class="material-symbols-outlined text-3xl">add_shopping_cart</span>
+                    </div>
+                    <h4 class="text-xl font-bold font-headline text-primary mb-2">Want a new ride?</h4>
+                    <p class="text-on-surface-variant text-sm mb-8 px-4">See what vehicles are currently available within your budget range in our complete market index.</p>
+                    <a href="{{ url_for('searchs.search') }}" class="bg-surface-container-high text-on-surface font-headline font-bold px-8 py-3 rounded-xl transition-all hover:bg-surface-dim hover:-translate-y-1 shadow-sm w-full border border-outline-variant/20">
+                        Launch Budget Search
+                    </a>
+                 </div>
+            </div>
+
+            {% else %}
+            <!-- Blank State -->
+            <div class="h-full min-h-[600px] flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/30 rounded-3xl bg-surface-container/30 px-6">
+                <div class="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center mb-6 shadow-sm border border-outline-variant/20">
+                    <span class="material-symbols-outlined text-5xl text-outline-variant">analytics</span>
+                </div>
+                <h3 class="font-headline font-extrabold text-2xl text-on-surface mb-2 text-center">Awaiting Data Input</h3>
+                <p class="text-on-surface-variant text-center max-w-sm font-medium">Please construct your prediction query using the Precision Input panel on the left to initialize the neural valuation engine.</p>
+            </div>
+            {% endif %}
+
+            <!-- Prediction History Section -->
+            <div class="mt-12 bg-surface-container-lowest dark:bg-surface-container p-8 rounded-3xl shadow-sm border border-outline-variant/10 dark:border-white/5 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="flex justify-between items-center mb-6">
+                    <h4 class="text-xl font-bold font-headline text-primary dark:text-primary-fixed flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary-fixed">history</span> Your Valuation History
+                    </h4>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-outline">Last 5 entries</span>
+                </div>
+
+                {% if history %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-outline-variant/10 dark:border-white/5">
+                                <th class="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-outline">Vehicle</th>
+                                <th class="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-outline text-right">Valuation</th>
+                                <th class="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-outline text-right">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/10 dark:divide-white/5">
+                            {% for p in history %}
+                            <tr class="group hover:bg-surface dark:hover:bg-primary-container/20 transition-all cursor-default">
+                                <td class="py-4 px-2">
+                                    <div class="flex flex-col">
+                                        <span class="text-sm font-bold text-on-surface dark:text-white uppercase">{{ p.model }}</span>
+                                        <span class="text-[10px] font-semibold text-on-surface-variant dark:text-on-primary-container truncate w-40">{{ p.model_year }} • {{ p.milage }} KM • {{ p.fuel_type.split('_')[-1] | capitalize }}</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-2 text-right">
+                                    <span class="text-sm font-black text-primary dark:text-tertiary-fixed-dim">LKR {{ "{:,.2f}".format(p.price) }}</span>
+                                </td>
+                                <td class="py-4 px-2 text-right">
+                                    <span class="text-[10px] font-black text-outline uppercase">{{ p.created_at.strftime('%b %d') if p.created_at else 'N/A' }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="py-12 flex flex-col items-center justify-center text-center">
+                    <span class="material-symbols-outlined text-4xl text-outline-variant/40 mb-2">analytics</span>
+                    <p class="text-sm font-bold text-on-surface-variant">No historical data found</p>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    const modelYearInput = document.querySelector("[name='model_year']");
+    const ageInput = document.querySelector("[name='age']");
+
+    modelYearInput.addEventListener("input", function () {
+        const modelYear = parseInt(this.value);
+        const currentYear = new Date().getFullYear();
+
+        if (!isNaN(modelYear) && modelYear > 1980 && modelYear <= currentYear) {
+            ageInput.value = currentYear - modelYear;
+        } else {
+            ageInput.value = "";
+        }
+    });
+</script>
+{% endblock %}
