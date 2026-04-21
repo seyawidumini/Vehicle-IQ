@@ -1,0 +1,52 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Add Vehcile | Vehicle-IQ{% endblock %}
+
+{% block main_content %}
+<header class="mb-10 text-center">
+    <h1 class="text-4xl font-extrabold font-headline text-primary tracking-tight mb-2">Budget List</h1>
+    <p class="text-on-surface-variant font-body">Search with Budget.</p>
+</header>
+
+<div class="max-w-2xl mx-auto bg-surface-container-lowest p-10 rounded-3xl shadow-lg border border-outline-variant/20 relative overflow-hidden">
+    <!-- Abstract Accent glow -->
+    <div class="absolute -top-32 -right-32 w-64 h-64 bg-tertiary-fixed-dim/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6 relative z-10">
+        {{ form.hidden_tag() }}
+
+        <div class="space-y-1">
+            {{ form.model.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest pl-1") }}
+            {{ form.model(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm transition-all shadow-inner", placeholder="e.g. Toyota Corolla") }}
+            {% for error in form.model.errors %}
+                <p class="text-[10px] text-error mt-1 font-bold pl-1">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-1">
+                {{ form.year.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest pl-1") }}
+                {{ form.year(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm transition-all shadow-inner", placeholder="e.g. 2018") }}
+                {% for error in form.year.errors %}
+                    <p class="text-[10px] text-error mt-1 font-bold pl-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="space-y-1">
+                {{ form.price.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest pl-1") }}
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant font-black text-xs">LKR</span>
+                    {{ form.price(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 pl-12 pr-4 text-on-surface font-semibold text-sm transition-all shadow-inner", placeholder="4000000") }}
+                </div>
+                {% for error in form.price.errors %}
+                    <p class="text-[10px] text-error mt-1 font-bold pl-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="pt-8">
+            {{ form.submit(class="w-full justify-center py-4 bg-primary text-white font-headline font-black text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-primary/20 hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer", value="Add Budget") }}
+        </div>
+    </form>
+</div>
+{% endblock %}
