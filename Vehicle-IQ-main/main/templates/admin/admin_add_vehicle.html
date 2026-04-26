@@ -1,0 +1,103 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Add Vehicle | Vehicle-IQ{% endblock %}
+
+{% block main_content %}
+<header class="mb-10 text-center">
+    <h1 class="text-4xl font-extrabold font-headline text-primary tracking-tight mb-2">Add New Vehicle</h1>
+    <p class="text-on-surface-variant font-body">Append a new vehicle to the system.</p>
+</header>
+
+<div class="max-w-3xl mx-auto bg-surface-container-lowest p-10 rounded-3xl shadow-lg border border-outline-variant/20 relative overflow-hidden">
+    <div class="absolute -top-32 -left-32 w-64 h-64 bg-primary-fixed/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6 relative z-10">
+        {{ form.hidden_tag() }}
+        
+        <div class="relative overflow-hidden w-full bg-surface-container rounded-xl p-4 flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/40 hover:border-primary-fixed hover:bg-surface-container-high transition-colors text-sm font-semibold text-on-surface group h-40">
+
+            {{ form.photo(class="absolute inset-0 w-full h-full opacity-0 cursor-pointer text-sm",
+            **{"onchange":"previewImage(event)"}) }}
+
+                <!-- Image Preview -->
+                <img id="preview" class="hidden w-full h-full object-cover rounded-xl absolute inset-0"/>
+
+                <!-- Default Content -->
+                <div id="upload-text" class="flex flex-col items-center">
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary text-3xl mb-2">
+                        add_photo_alternate
+                    </span>
+                    <span id="file-chosen" class="text-xs uppercase tracking-widest font-black">
+                        Upload High-Res Asset...
+                    </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+            <div class="space-y-1">
+                {{ form.brand.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest pl-1") }}
+                {{ form.brand(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm transition-all shadow-inner", placeholder="e.g. Porsche") }}
+                {% for error in form.brand.errors %}
+                    <p class="text-[10px] text-error mt-1 font-bold pl-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="space-y-1">
+                {{ form.model.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest pl-1") }}
+                {{ form.model(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm transition-all shadow-inner", placeholder="e.g. 911 GT3") }}
+                {% for error in form.model.errors %}
+                    <p class="text-[10px] text-error mt-1 font-bold pl-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="space-y-1">
+                {{ form.vehicle_category.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest pl-1") }}
+                <div class="relative">
+                    {{ form.vehicle_category(
+                        class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 pl-4 pr-4 text-on-surface font-semibold text-sm appearance-none transition-all cursor-pointer shadow-inner"
+                    ) }}
+            </div>
+                {% for error in form.vehicle_category.errors %}
+                    <p class="text-[10px] text-error mt-1 font-bold pl-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="space-y-1">
+                {{ form.fuel_type.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest pl-1") }}
+                <div class="relative">
+                    {{ form.fuel_type(
+                        class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 pl-4 pr-4 text-on-surface font-semibold text-sm appearance-none transition-all cursor-pointer shadow-inner"
+                    ) }}
+                </div
+            <div>
+                {% for error in form.fuel_type.errors %}
+                    <p class="text-[10px] text-error mt-1 font-bold pl-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="pt-8">
+            {{ form.submit(class="w-full justify-center py-4 bg-primary text-white font-headline font-black text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-primary/20 hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer", value="Add Vehicle") }}
+        </div>
+    </form>
+</div>
+<script>
+function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('preview');
+    const uploadText = document.getElementById('upload-text');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+            uploadText.classList.add('hidden');
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+{% endblock %}
