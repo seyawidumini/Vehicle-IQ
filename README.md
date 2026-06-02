@@ -8,7 +8,7 @@ Vehicle-IQ is a Flask web application that predicts the market price of a used v
 
 ## What It Does
 
-Used vehicle pricing in Sri Lanka is inconsistent — the same car listed by two different sellers can have a price gap of hundreds of thousands of rupees. Vehicle-IQ gives buyers and sellers a data-driven price estimate based on the actual features of the vehicle, making negotiations fairer and more informed.
+Used vehicle pricing in Sri Lanka is inconsistent the same car listed by two different sellers can have a price gap of hundreds of thousands of rupees. Vehicle-IQ gives buyers and sellers a data driven price estimate based on the actual features of the vehicle, making negotiations fairer and more informed.
 
 Users enter details about a vehicle and the system returns a predicted price using a trained machine learning model.
 
@@ -111,7 +111,7 @@ Then open `http://127.0.0.1:5000` in your browser.
 3. A regression model was trained and serialized using Pickle
 4. On each prediction request, user input is processed with Pandas and passed through the same encoding pipeline before the model generates a price estimate
 
-The Jupyter notebook in `/notebook` covers the full training process — data cleaning, feature engineering, model selection, and evaluation.
+The Jupyter notebook in `/notebook` covers the full training process  - data cleaning, feature engineering, model selection, and evaluation.
 
 ---
 
